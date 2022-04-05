@@ -18,7 +18,7 @@ Type the number of your favorite movie. 4
 
 """
 
-films = [
+FILMS = [
     "Pinocchio",
     "Dumbo",
     "Bambi",
@@ -38,19 +38,19 @@ films = [
 def move_film(film_id, new_position):
     # [x] D. Move the movie to the new position
     new_place = int(new_position) - 1
-    films.insert(new_place, f"+ {films[film_id]}")
-    # films.insert(new_place, films[answer])
-    del films[film_id]
+    film_in_place = FILMS[int(film_id) - 1]
+    del FILMS[int(film_id) - 1]
+    FILMS.insert(new_place, f"+ {film_in_place}")
         
 def film_review():
     # list the movies
-    for i, item in enumerate(films, 1):
+    for i, item in enumerate(FILMS, 1):
         print(i, item)
     
     # ask the user
     # user = index number of movie (i) and the place number
     user = input("Type the number of your favorite movie. ")
-    number_of_films = len(films)
+    number_of_films = len(FILMS)
     
     # [x] B. Make sure it is a movie in the list
     if int(user) > 0 and int(user) <= number_of_films:
@@ -61,14 +61,14 @@ def film_review():
     answer = int(user) -1
     if answer < number_of_films:
         # [x] C. Print the name of the movie that they picked
-        print(f'You picked the movie {films[answer]}.')
+        print(f'You picked the movie {FILMS[answer]}.')
     
     place = input("What place in your favorites list would you like to put it? ")
     # [x] D. Move the movie to the new position
     move_film(answer, place)
     
     # [x] E. Print the list again in order with numbers next to each movie
-    for i, item in enumerate(films, 1):
+    for i, item in enumerate(FILMS, 1):
         print(i, item)
 
 
@@ -90,27 +90,32 @@ def film_review():
 
 # Runner
 
-FILMS = films.copy()
+FILMS_ORGINAL = FILMS.copy()
 
-def test_move_film_0_3():
-    films = FILMS.copy()
-    move_film(0, 3)
+def test_move_film_1_4():
+    # films = FILMS.copy()
+    
+    # move from human #1 to human #4
+    #          (computer #0 to computer #3)
+    move_film(1, 4)
 
+    # computer: 0       1       2                      3              4
+    # human   : 1       2       3                      4              5
     wanted = ["Dumbo", "Bambi", "Alice in Wonderland", "+ Pinocchio", "Robin Hood"]
 
-    assert films == wanted, \
-        f"After moving 0 to 3 the film order should be: \n{wanted} but instead it's: \n{films}"
+    assert FILMS == wanted, \
+        f"After moving 1 to 4 the film order should be: \n{wanted} but instead it's: \n{FILMS}"
 
-def test_move_film_3_0():
+def test_move_film_4_1():
     films = FILMS.copy()
     assert films == FILMS, "copy failure"
 
-    move_film(3, 0)
+    move_film(4, 1)
 
     wanted = ["+ Alice in Wonderland", "Pinocchio", "Dumbo", "Bambi", "Robin Hood"]
 
     assert films == wanted, \
-        f"After moving 3 to 0 the film order should be: \n{wanted} but instead it's: \n{films}"
+        f"After moving 4 to 1 the film order should be: \n{wanted} but instead it's: \n{films}"
 
 # test_move_film_0_3()
 # test_move_film_3_0()
