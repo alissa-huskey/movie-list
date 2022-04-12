@@ -58,13 +58,14 @@ def film_review():
     else:
         print("That movie isn't there, friends. Try again")
         return
-    answer = int(user) -1
+    answer = int(user)
     if answer < number_of_films:
         # [x] C. Print the name of the movie that they picked
         print(f'You picked the movie {FILMS[answer]}.')
     
     place = input("What place in your favorites list would you like to put it? ")
     # [x] D. Move the movie to the new position
+    # breakpoint()
     move_film(answer, place)
     
     # [x] E. Print the list again in order with numbers next to each movie
@@ -90,7 +91,11 @@ def film_review():
 
 # Runner
 
-FILMS_ORGINAL = FILMS.copy()
+def reset():
+    global FILMS
+    FILMS = FILMS_ORIGINAL.copy()
+
+FILMS_ORIGINAL = FILMS.copy()
 
 def test_move_film_1_4():
     # films = FILMS.copy()
@@ -107,22 +112,32 @@ def test_move_film_1_4():
         f"After moving 1 to 4 the film order should be: \n{wanted} but instead it's: \n{FILMS}"
 
 def test_move_film_4_1():
-    films = FILMS.copy()
-    assert films == FILMS, "copy failure"
+    reset()
 
     move_film(4, 1)
-
+    # breakpoint()
     wanted = ["+ Alice in Wonderland", "Pinocchio", "Dumbo", "Bambi", "Robin Hood"]
 
-    assert films == wanted, \
-        f"After moving 4 to 1 the film order should be: \n{wanted} but instead it's: \n{films}"
+    assert FILMS == wanted, \
+        f"After moving 4 to 1 the film order should be: \n{wanted} but instead it's: \n{FILMS}"
 
-# test_move_film_0_3()
-# test_move_film_3_0()
+def test_move_film_3_3():
+    reset()
+    move_film(3,3)
+    wanted = [
+        "Pinocchio",
+        "Dumbo",
+        "+ Bambi",
+        "Alice in Wonderland",
+        "Robin Hood",
+    ]
+    # breakpoint()
+
+    assert FILMS == wanted, \
+        f"After moving 3 to 3 the film order should be: \n{wanted} but instead it's : \n{FILMS}"
 
 def silly_test():
     films = FILMS.copy()
     assert films[0] == "Pinocchio", "Not correct"
 
-# film_review()
-silly_test()
+film_review()
